@@ -1,25 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Header from './components/header/Header';
+import Weather from './components/weather/Weather';
+import { LocationContext } from './context/LocationContext';
+import { cities } from './data/cities';
+import { ILocation } from './interfaces/Location.interface';
 
 function App() {
+
+  const defaultLocation:ILocation = cities.find(x=>x.code ==='bsas')!;
+  
+  const [selectedLocation, setSelectedLocation] = useState(defaultLocation);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+        <LocationContext.Provider value={{selectedLocation, setSelectedLocation}}>
+          <div className="overflow-auto bg-gray-300 h-screen">
+            <Header />
+            <div className="flex flex-col mt-24">
+              <Weather/>
+            </div>
+          </div>
+        </LocationContext.Provider>
   );
 }
 
